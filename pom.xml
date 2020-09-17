@@ -19,12 +19,12 @@
 			</plugin>
 		</plugins>
 	</build>
-<dependencies>
-	<dependency>
-		<groupId>de.vandermeer</groupId>
-		<artifactId>asciitable</artifactId>
-		<version>0.3.2</version>
-	</dependency>
-</dependencies>
+	<dependencies>
+		<dependency>
+			<groupId>de.vandermeer</groupId>
+			<artifactId>asciitable</artifactId>
+			<version>0.3.2</version>
+		</dependency>
+	</dependencies>
 
 </project>

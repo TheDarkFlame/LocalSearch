@@ -27,7 +27,7 @@ public class Main {
 		//set our initial solutions to the problem
 		ArrayList<CandidateSolution> initialSolutions = new ArrayList<>();
 		initialSolutions.add(new CandidateSolution(intListToBoolean(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)))));
-		initialSolutions.add(new CandidateSolution(intListToBoolean(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 1, 0, 0)))));
+		initialSolutions.add(new CandidateSolution(intListToBoolean(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 1, 0)))));
 		initialSolutions.add(new CandidateSolution(intListToBoolean(new ArrayList<>(Arrays.asList(0, 1, 1, 1, 0, 1, 0, 1, 0, 0)))));
 
 		//loop through all specified starts and run the optimisation process for each of them
