@@ -129,7 +129,7 @@ public class Main {
 					neighbour,
 					i + 1, // the 1-indexed (instead of 0 indexed) bit that was flipped
 					(constraints.isFeasible(neighbour)) ? objectiveFunction.evaluateFitness(neighbour) : "infeasible", //if feasible, the current fitness, otherwise "infeasible"
-					(selectedNeighbour == neighbour) ? "←--" : "" //if this neighbour is selected, put in arrow, else nothing
+					(selectedNeighbour == neighbour) ? "<---" : "" //if this neighbour is selected, put in arrow, else nothing
 			);
 
 		}

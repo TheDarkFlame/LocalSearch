@@ -3,7 +3,7 @@ package com.parker.david;
 import java.util.ArrayList;
 
 /**
- * this class represents a single constraint. It is of the form [list of weights] [operator] [value] eg: (-1 * X1) + (3 * X2) ≤ 7
+ * this class represents a single constraint. It is of the form [list of weights] [operator] [value] eg: (-1 * X1) + (3 * X2) <= 7
  * it has a method to initialise it, and a method to check if the constraint is satisfied for a candidate solution
  */
 public class Constraint {
@@ -26,7 +26,7 @@ public class Constraint {
 	/**
 	 * these are the operators that are permissible
 	 * an example is:
-	 * x1 + x2 ≤ 15
+	 * x1 + x2 <= 15
 	 * would be LESS_THAN_OR_EQUAL
 	 */
 	public enum Operators {
