@@ -83,9 +83,6 @@ public class Main {
 			}
 		}
 
-		//print the best solution at the very end
-
-
 		//format the table and print it out
 		outputTable.getRenderer().setCWC(new CWC_LongestLine());
 		outputTable.getContext().setGrid(A8_Grids.lineDoubleBlocks());
