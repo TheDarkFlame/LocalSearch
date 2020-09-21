@@ -2,9 +2,15 @@ package com.parker.david;
 
 import de.vandermeer.asciitable.AsciiTable;
 import de.vandermeer.asciitable.CWC_LongestLine;
+import de.vandermeer.asciithemes.TA_Grid;
+import de.vandermeer.asciithemes.TA_GridConfig;
+import de.vandermeer.asciithemes.a7.A7_Grids;
 import de.vandermeer.asciithemes.a8.A8_Grids;
 import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -16,7 +22,7 @@ public class Main {
 	/**
 	 * entry point, just runs the problem over the given set of starts
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		//set our objective function from the problem
 		ObjectiveFunction objectiveFunction = new ObjectiveFunction(new ArrayList<>(Arrays.asList(8, 12, 9, 14, 16, 10, 6, 7, 11, 13)));
 
@@ -29,6 +35,9 @@ public class Main {
 		initialSolutions.add(new CandidateSolution(intListToBoolean(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)))));
 		initialSolutions.add(new CandidateSolution(intListToBoolean(new ArrayList<>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 1, 0)))));
 		initialSolutions.add(new CandidateSolution(intListToBoolean(new ArrayList<>(Arrays.asList(0, 1, 1, 1, 0, 1, 0, 1, 0, 0)))));
+
+		//delete old output file
+		new File("output.txt").delete();
 
 		//loop through all specified starts and run the optimisation process for each of them
 		for (CandidateSolution solution : initialSolutions) {
@@ -46,7 +55,7 @@ public class Main {
 	 * @param objectiveFunction the objective function which we aim to optimise for
 	 * @param constraints       the set of constraints which define the valid solution space
 	 */
-	public static void optimiseProcess(CandidateSolution startSolution, ObjectiveFunction objectiveFunction, ConstraintSet constraints) {
+	public static void optimiseProcess(CandidateSolution startSolution, ObjectiveFunction objectiveFunction, ConstraintSet constraints) throws IOException, InterruptedException {
 
 		//create an instance of a next solution selector. We choose here to use best improvement as our selector type
 		NextSolutionSelector solutionSelector = new BestImprovementSelection(objectiveFunction, constraints);
@@ -56,7 +65,7 @@ public class Main {
 
 		//create table and add header to it
 		AsciiTable outputTable = new AsciiTable();
-		outputTable.addRule();
+		outputTable.addHeavyRule();
 		outputTable.addRow("t", "s^(t)", "z", "Neighbour", "Bit", "New z", " ");
 
 		//we create our candidate solution object from our initial solution decision variables
@@ -79,17 +88,23 @@ public class Main {
 			if (currentSolution == null) {
 				outputTable.addLightRule();
 				outputTable.addRow(iterationCounter, oldSolution, objectiveFunction.evaluateFitness(oldSolution), "", "", "", "");
-				outputTable.addRule();
+				outputTable.addHeavyRule();
 			}
 		}
 
-		//format the table and print it out
+		//format the table, and print to console and output.txt
 		outputTable.getRenderer().setCWC(new CWC_LongestLine());
-		outputTable.getContext().setGrid(A8_Grids.lineDoubleBlocks());
+		TA_Grid grid = TA_Grid.create("an ascii compliant grid")
+				.addCharacterMap(TA_GridConfig.RULESET_HEAVY, ' ', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#')
+				.addCharacterMap(TA_GridConfig.RULESET_NORMAL, ' ', '~', ' ', '+', '+', '+', '+', '~', '~', '~', ' ', ' ')
+				.addCharacterMap(TA_GridConfig.RULESET_LIGHT, ' ', '-', ' ', '+', '+', '+', '+', '-', '-', '-', ' ', ' ');
+		outputTable.getContext().setGrid(grid);
+		outputTable.setPaddingLeft(1);
+		outputTable.setPaddingRight(1);
 		outputTable.setTextAlignment(TextAlignment.CENTER);
-		System.out.println(outputTable.render());
-		System.out.println();
-		System.out.println();
+		FileWriter output = new FileWriter("output.txt", true);
+		output.append(outputTable.render()).append("\n\n").close();
+		System.out.println(outputTable.render() + "\n\n");
 	}
 
 	/**
